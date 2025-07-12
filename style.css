@@ -1,0 +1,212 @@
+/* ============================================== */
+/* === ESTILOS GLOBALES Y DE ETIQUETAS BASE === */
+/* ============================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #02585c;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ============================================== */
+/* === ESTRUCTURA Y CONTENEDORES PRINCIPALES === */
+/* ============================================== */
+
+.main-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    min-height: 500px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    flex-grow: 1;
+    padding-top: 150px;
+}
+
+.textarea-wrapper {
+    position: relative;
+    padding: 3px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1e2a3a;
+    margin-bottom: 20px;
+}
+
+#noteArea {
+    width: 100%;
+    height: 250px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    resize: vertical;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.5s ease-out, transform 0.4s ease-out;
+}
+
+/* ============================================== */
+/* === ESTILOS DE BOTONES Y ANIMACIONES === */
+/* ============================================== */
+
+/*
+* LA SOLUCIÓN CLAVE ESTÁ AQUÍ:
+* 1. La animación 'breathing' AHORA SOLO afecta a la sombra (box-shadow), no al tamaño (transform).
+* Esto evita el conflicto principal.
+* 2. Las transiciones en el botón se centran en 'transform' y 'box-shadow' para los efectos interactivos.
+* Así, la carga, el hover y el clic no pelean con la animación de reposo.
+*/
+
+
+
+/* 2. Estilo base del botón */
+button {
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 0.5px solid #b0b0b0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: white;
+    background-color: #4b8b8d;
+
+    /* Estado inicial para la animación de carga */
+    opacity: 0;
+    transform: translateY(20px);
+
+    /* Transiciones para todos los efectos interactivos */
+    transition:
+        transform 0.2s ease-out,
+        box-shadow 0.2s ease-out,
+        opacity 0.5s ease-out,
+        background-color 0.3s ease;
+
+   
+}
+
+/* 3. Estado cargado (se activa con JS) */
+button.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 4. Efecto al pasar el cursor (hover) */
+button:hover {
+    /* El botón se levanta. La transición se encarga de que sea suave */
+    transform: translateY(-2px);
+    /* Le damos una sombra más prominente para el efecto 3D */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 5. Efecto al hacer clic (active) */
+button:active {
+    /* El botón se hunde */
+    transform: translateY(1px);
+    /* La sombra se hace más pequeña para simular que está presionado */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================== */
+/* === SEGUIDOR DE CURSOR (MOUSE FOLLOWER) === */
+/* ============================================== */
+
+.mouse-follower {
+    position: fixed;
+    width: 5px; /* Lo hacemos un poquito más visible */
+    height: 5px;
+    background-color: rgba(8, 213, 213, 0.5); /* Un color que combine */
+    border-radius: 50%;
+    pointer-events: none; /* ¡Muy importante! Para que puedas hacer clic a través de él */
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+    z-index: 9999; /* Para que esté por encima de todo */
+    opacity: 0; /* Oculto hasta que el mouse se mueva */
+}
+
+/* Cuando el seguidor está activo (sobre un botón) */
+.mouse-follower.active {
+    width: 40px; /* Se agranda */
+    height: 40px;
+    background-color: rgba(8, 213, 213, 0.3); /* Se hace más transparente */
+}
+
+
+/* ============================================== */
+/* === COLORES Y POSICIONES (Sin cambios) === */
+/* ============================================== */
+
+/* ... (El resto del CSS de colores y posicionamiento que ya estaba bien) ... */
+
+#noteArea::placeholder { color: #080101; font-style: italic; }
+.buttons-container button, .buttons-container3 button { background-color: #edeae9; color: #111010; }
+.buttons-container button:hover, .buttons-container3 button:hover { background-color: #8c8b8b; }
+.buttons-container5 button, .buttons-container6 button { background-color: #ff2d00; }
+.buttons-container5 button:hover, .buttons-container6 button:hover { background-color: #621504; }
+.buttons-container7 button, .buttons-container10 button { background-color: #023a3c; }
+.buttons-container7 button:hover, .buttons-container10 button:hover { background-color: #000c0c; }
+.buttons-container9 button { background-color: #88ecf5; }
+.buttons-container9 button:hover { background-color: #02272a; }
+#unreachableClientBtn, #templateBtn2, #templateBtn3, #templateBtn4, #templateBtn5, #templateBtn6, .container8 button { background-color: #04878d; }
+#unreachableClientBtn:hover, #templateBtn2:hover, #templateBtn3:hover, #templateBtn4:hover, #templateBtn5:hover, #templateBtn6:hover, #clienteNoDeseaBtn:hover, .container8 button:hover { background-color: #022628; }
+
+.buttons-container, .buttons-container2, .buttons-container3, .buttons-container4, .buttons-container5, .buttons-container6, .buttons-container7, .buttons-container9, .buttons-container10 { position: absolute; top: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
+.buttons-container  { left: 20px; }
+.buttons-container2 { left: 375px; }
+.buttons-container3 { left: 175px; }
+.buttons-container4 { left: 525px; }
+.buttons-container5 { left: 680px; }
+.buttons-container6 { left: 825px; }
+.buttons-container7 { top: 140px; left: 20px; }
+.buttons-container9 { left: 1015px; }
+.buttons-container10 { top: 140px; left: 20px; }
+.container8 { position: absolute; top: 177px; left: 150px; display: flex; gap: 2px; }
+.container10 { position: absolute; top: 135px; left: 720px; display: flex; gap: 2px; }
+
+@keyframes rotate-glow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.textarea-wrapper::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, rgba(255, 255, 255, 0.8), transparent 25%); animation: rotate-glow 4s linear infinite; }
+
+/* Estilo para el nuevo contenedor principal */
+.main-wrapper {
+    display: grid; /* ¡Activamos CSS Grid! */
+    grid-template-columns: 200px 1fr 200px; /* Columna izq, central (flexible), derecha */
+    grid-template-rows: auto 1fr; /* Fila superior (botones) y fila inferior (botones) */
+    grid-template-areas: 
+        "left-col  main-content  right-col"
+        "bottom    bottom        bottom";
+    gap: 15px; /* Espacio entre las áreas */
+    width: 95%;
+    max-width: 1400px; /* Un ancho máximo más grande */
+    margin: auto; /* Para centrar el contenedor */
+    padding: 20px;
+    background-color: #ffffff; /* Lo movimos del antiguo .main-wrapper aquí */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#tutorialBtn {
+  position: fixed; /* Fija el botón en la pantalla */
+  bottom: 20px;    /* Lo separa 20px del borde inferior */
+  right: 20px;     /* Lo separa 20px del borde derecho */
+  z-index: 990;    /* Se asegura que esté por encima de otros elementos */
+}
+

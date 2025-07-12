@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloc de Notas</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        @keyframes pulse-effect {
+            0% {
+                box-shadow: 0 0 20px #fff;
+             }
+            50% {
+                box-shadow: 0 0 55px #fff;
+            }
+            100% {
+                box-shadow: 0 0 40px #fff;
+            }
+        }
+
+        #spotlight-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); z-index: 999; }
+        .spotlight-active { 
+            position: relative;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            outline: 4px solid #00aaff;
+            box-shadow: 0 0 25px #fff;
+            animation: pulse-effect 1.5s infinite;
+
+         }
+        .container-tutorial { text-align: center; padding: 10px 0; background-color: #f0f8ff; margin-bottom: 10px; }
+        #tutorialBtn { background-color: #007bff; color: white; font-weight: bold; border-radius: 8px; padding: 10px 20px; cursor: pointer; border: none; font-size: 16px; }
+        #tutorialBtn:hover { background-color: #0056b3; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background-color: #fff; padding: 20px 30px; border-radius: 10px; width: 90%; max-width: 900px; max-height: 85vh; display: flex; flex-direction: column; position: relative; animation: fadeIn 0.3s; }
+        #tutorial-list { flex-grow: 1; overflow-y: auto; }
+        .modal-navigation { padding-top: 20px; margin-top: 15px; border-top: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
+        .modal-navigation button { padding: 10px 25px; border-radius: 5px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        #tutorialExitBtn { background-color: #dc3545; color: white; }
+        #tutorialExitBtn:hover { background-color: #c82333; }
+        #tutorialNextBtn { background-color: #28a745; color: white; }
+        #tutorialNextBtn:hover { background-color: #218838; }
+        @keyframes fadeIn { from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);} }
+        .tutorial-item { display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .tutorial-item button { margin-right: 20px; flex-shrink: 0; }
+        .tutorial-item p { margin: 0; }
+        .tutorial-group-title { color: #007bff; border-top: 2px solid #007bff; padding-top: 15px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    
+    <div id="spotlight-overlay"></div>
+
+    <div class="container-tutorial">
+        <button id="tutorialBtn">❓ Iniciar Tutorial de Botones</button>
+    </div>
+    
+    <input type="date" id="datePicker" style="display: none;">
+    <div class="container"> <div class="textarea-wrapper"> <textarea id="noteArea" placeholder="Empieza a escribir aquí..."></textarea> </div> <div class="buttons-container"> <div class="button-wrapper"><button id="unreachableClientBtn">Cliente No Contesta</button></div> <div class="button-wrapper"><button id="clientReceivesBtn">Cliente Sí Recibe</button></div> <div class="button-wrapper"><button id="clientRescheduleBtn">Cliente Reagenda</button></div> </div> </div> <div class ="container2"> <div class="buttons-container2">  <button id="templateBtn2">Reagenda</button> <button id="unreachableClientBtn2">Ya Recibe</button> <button id="clientReceivesBtn2">No Respónde</button> <button id="clientRescheduleBtn2">Validacion Anterior</button> </div>   </div> <div class ="container3"> <div class="buttons-container3">  <button id="templateBtn3">Cliente No Se Encuentra</button> <button id="unreachableClientBtn3">Ya Recibe</button> <button id="clientReceivesBtn3">Responde Pero Reagenda</button> <button id="clientRescheduleBtn3">Cancelacion 4/4</button> </div> </div> <div class ="container4"> <div class="buttons-container4">  <button id="templateBtn4">Cliente Retrasa</button> <button id="unreachableClientBtn4">Ya Recibe</button> <button id="clientReceivesBtn4"> No Responde</button> <button id="clientRescheduleBtn4">Validacion Anterior</button> </div> </div> <div class ="container5" > <div class="buttons-container5">  <button id="templateBtn5">Cliente No Desea</button> <button id="unreachableClientBtn5">Si la Desea</button> <button id="clientReceivesBtn5"> No Responde</button>  </div> </div> <div class ="container6" > <div class="buttons-container6">  <button id="templateBtn6">No Fue Lo Que Contrato</button> <button id="unreachableClientBtn6">Si la Desea</button> <button id="clientReceivesBtn6"> No Responde</button>  </div> </div> <div class ="container7" > <div class="buttons-container7">  <button id="templateBtn">Plantilla</button> <button id="resetBtn">Copiar Y Borrar</button> </div> </div> <div class ="container8" > <button id="ilocalizableBtn">Ilocalizable</button> <button id="reagendaBtn">Reagenda</button> <button id="clienteNoDeseaBtn">Cliente No Desea</button> <button id="horarioSugeridoBtn">Horario Sugerido</button> <button id="validarSupervisorBtn">Validar con Supervisor</button> <button id="cancelacionBtn">CANCELACIÓN</button> <button id="sdpcBtn">SDPC</button> <button id="formularioBtn">FORMULARIO</button> <button id="noRespondeBtn">NO RESPONDE</button>  </div> <div class="container9"> <div class="buttons-container9"> <button id="customBtn1">Personalizado 1</button> <button id="customBtn2">Personalizado 2</button> <button id="customBtn3">Personalizado 3</button> </div> </div> <div class="container10"> <button id="addOnlyBtn1">Agregar Texto 1</button> <button id="addOnlyBtn2">Agregar Texto 2</button> <button id="addOnlyBtn3">Agregar Texto 3</button> </div>
+    <div class="mouse-follower"></div>
+
+    <div id="tutorialModal" class="modal">
+        <div class="modal-content">
+            <div id="tutorial-list"></div>
+            <div class="modal-navigation">
+                <button id="tutorialExitBtn">Salir</button>
+                <button id="tutorialNextBtn">Siguiente</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+
+    <script>
+            const tutorialGroups = [
+        { title: "Los botones que se encuentran en la parte superior, son las alertas, y se agrupan con sus respectivas causas, lo que esta arriba es la alerta, lo que se encuentra abajo de ellas son las posibles causa", buttons: { 'unreachableClientBtn': '', 'templateBtn3': '' , 'templateBtn2': '' , 'templateBtn4': '', 'templateBtn5': '', 'templateBtn6': ''}},
+        { title: "Principal", buttons: { 'templateBtn': '<b>Plantilla:</b> Inserta un texto, en este caso agrega la plantilla unica de documentacion.<b>PARA EMPEZAR NECESITAS OPRIMIR ESTE BOTON PARA USAR LOS BOTONES, DE LO CONTRARIO NO SE PODRAN USAR<b/>', 'resetBtn': '<b>Copiar y Borrar:</b> Copia todo el texto al portapapeles y limpia el área de notas.', /*'ilocalizableBtn': '<b>Ilocalizable:</b> Tras varios intentos en días distintos, no se puede contactar.', 'cancelacionBtn': '<b>CANCELACIÓN:</b> Plantilla formal para registrar una cancelación.', 'formularioBtn': '<b>FORMULARIO:</b> Plantilla para llenar datos estructurados.' */} },       
+        { title: "Cliente no contesta", buttons: { 'unreachableClientBtn': '<b>Cliente No Contesta:</b> Usar cuando tecnico manda esta aleta, en automatico se estaria rellenando el "motivo" y "resolucion de contacto".', 'clientReceivesBtn': '<b>Cliente Sí Recibe:</b> Usar el boton en el caso que la alerta sea "Cliente No Contesta" pero cliente si responde y recibe en el momento.', 'clientRescheduleBtn': '<b>Cliente Reagenda:</b> Usar si el cliente contesta pero solicita un cambio.' } },
+        { title: "Cliente No Se Encuentra En El Domicilio", buttons: { 'templateBtn3': '<b>Cliente No Se Encuentra:</b> Usar cuando tecnico manda esta aleta, en automatico se estaria rellenando el "motivo" y "resolucion de contacto.', 'unreachableClientBtn3': '<b>Ya Recibe:</b> El cliente que no se encontraba, ahora sí está disponible.', 'clientReceivesBtn3': '<b>Responde Pero Reagenda:</b> Te comunicas y te pide reagendar.', 'clientRescheduleBtn3': '<b>Cancelación 4/4:</b> Se usa para marcar una cancelación por intentos- fallidos 4 visitas. <b>"Puedes utilizar este boton para todas las alertas en caso de necesitarlo"<b/>' } },
+        { title: "Opciones de Reagenda ", buttons: { 'templateBtn2': '<b>Reagenda:</b> Al usar este boton te mostrara un calendario, en el podras seleccionar una fecha, despues de hacerlo te mostrara un anuncion, leelo para poner el matutino y/o vespertino.', 'unreachableClientBtn2': '<b>Ya Recibe:</b> Si el cliente que había reagendado ahora confirma la visita en este momento.', 'clientReceivesBtn2': '<b>No Responde:</b> Si intentas contactar para confirmar la reagenda y no contesta.', 'clientRescheduleBtn2': '<b>Validación Anterior:</b> Notas sobre una validación previa.' } },
+        { title: "Retraso de visita", buttons: { 'templateBtn4': '<b>Cliente Retrasa:</b> Usar este boton cuando esad mande esta alerta y termina de rellenar el script antes del "/" poniendo la hora a la que recibe titular.', 'unreachableClientBtn4': '<b>Ya Recibe:</b> El cliente que estaba retrasado ya está disponible y recibe en este momento.', 'clientReceivesBtn4': '<b>No Responde:</b> No contesta al intentar confirmar.', 'clientRescheduleBtn4': '<b>Validación Anterior:</b> Notas de una validación previa.' } },
+        { title: "Cliente no desea el servicio", buttons: { 'templateBtn5': '<b>Cliente No Desea:</b> Usar cuando esad manda esta alerta y terminar de rellenar el escrit.', 'unreachableClientBtn5': '<b>Sí la Desea:</b> El cliente que no deseaba, cambia de opinión.', 'clientReceivesBtn5': '<b>No Responde:</b> Usar cuando se mando dicha alerta pero el clinete no responde.' } },
+        { title: "El plan de servicio no fue lo que contrato", buttons: { 'templateBtn6': '<b>No Fue Lo Que Contrato:</b> Usar cuando esad manda esta alerta y terminar de rellenar el escrit, El cliente argumenta que lo ofrecido no coincide con el acuerdo.', 'unreachableClientBtn6': '<b>Sí la Desea:</b> El cliente que no deseaba, cambia de opinión.', 'clientReceivesBtn6': '<b>No Responde:</b> Usar cuando se mando dicha alerta pero el clinete no responde.' } },
+        { title: "Plantillas Personalizadas ", buttons: { 'customBtn1': '<b>Personalizado 1:</b> Etos botones, guardan lo que tu quieras que agregue, puede ser antes o despues del "/" <b>PON ATENCION A LO QUE DICE PARA QUE SE AGREGUE JUSTO DONDE LO QUIERES.<b/>', 'addOnlyBtn1': '<b>Agregar Texto 1:</b> Agrega un fragmento de texto sin borrar lo existente.<b>EL TEXTO QUE AGREGUES AQUI SE PONDRA AL ULTIMO DEL ESCRIPT' } },
+        { title: "Usa estos 3 botones en estos casos ", buttons: {'ilocalizableBtn': '<b>Ilocalizable:</b> Estos 3 botones solo modifiacan la "RESOLUCION DE CONTACTO: " funcional cuando los tecnicos mandan una alerta erronea, por ejemplo necesitas que el motivo sea de "reagenda" pero la resolucion necesitas sea de "cliente no responde".', 'reagendaBtn': '<b>Reagenda:</b> Al igual que la de arriba sirve para modificar solo la "Resolucion de contacto: ".', 'clienteNoDeseaBtn': '<b>Cliente No Desea:</b> Modifica igual solo la "Resolucion de contacto: ".' } },
+        { title: "Adicionales ", buttons: {'horarioSugeridoBtn': '<b>Horario Sugerido:</b> Al usar este boton, te pedira una hora y la agregara a la documentacion hasta el ultimo.', 'validarSupervisorBtn': '<b>Validar con Supervisor:</b> Al usar modifica "Resolucion de contacto con "ESAD SE COMUNICA POR ALERTA QUE NO CORRESPONDE A LA CELULA / SE LE COMENTA VALIDAR CON SUPERVISOR PARA CANALIZAR A AREA CORRECTA, SE HACE TICKET INFORMATIVO"" .', 'cancelacionBtn': '<b>CANCELACIÓN:</b> Al usar el boton modifica todo lo que esta despues del "/" agragando lo siguiente "/ CLIENTE YA NO REQUIERE LA VIISITA SE DESASIGNO Y SE CANCELO LA ORDEN" sirve para absolutamente todas las alertas.','sdpcBtn': '<b>SDPC: </b> Usar solo en contigencia.', 'formularioBtn': '<b>FORMULARIO: </b> Agrega a la documentacion "SE LLENO FORMULARIO" .', 'noRespondeBtn': '<b>NO RESPONDE: </b> Sirve para todos los botones, usalo cuando el cliente no responda, modifica despues del "/" con "NO SE LOGRO CONTACTAR A TITULAR SE DESASIGNO LA ORDEN".'} }
+       
+    ];
+    
+    // --- LÓGICA DE LA PÁGINA Y DEL TUTORIAL (UNIFICADA) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Animación de carga inicial para todos los botones
+        const elementsToAnimate = document.querySelectorAll('textarea, button');
+        elementsToAnimate.forEach((element, index) => {
+            setTimeout(() => {
+                element.classList.add('loaded');
+            }, index * 75);
+        });
+
+        // 2. Lógica del tutorial con Spotlight
+        const modal = document.getElementById('tutorialModal');
+        const openBtn = document.getElementById('tutorialBtn');
+        const nextBtn = document.getElementById('tutorialNextBtn');
+        const exitBtn = document.getElementById('tutorialExitBtn');
+        const tutorialList = document.getElementById('tutorial-list');
+        const spotlightOverlay = document.getElementById('spotlight-overlay');
+        
+        // --- INICIA EL CAMBIO AQUÍ ---
+        // AÑADE ESTAS DOS LÍNEAS PARA ASEGURAR QUE TODO INICIE CERRADO
+        if (modal) modal.style.display = 'none';
+        if (spotlightOverlay) spotlightOverlay.style.display = 'none';
+        // --- TERMINA EL CAMBIO AQUÍ ---
+
+        if (!modal || !openBtn || !nextBtn || !exitBtn || !spotlightOverlay) return;
+
+        let currentGroupIndex = 0;
+        let highlightedElements = [];
+
+        function clearSpotlight() {
+            highlightedElements.forEach(el => el.classList.remove('spotlight-active'));
+            highlightedElements = [];
+        }
+
+        function showGroup(index) {
+            clearSpotlight();
+            tutorialList.innerHTML = '';
+            const group = tutorialGroups[index];
+            const titleH3 = document.createElement('h3');
+            titleH3.className = 'tutorial-group-title';
+            titleH3.innerHTML = group.title;
+            tutorialList.appendChild(titleH3);
+
+            for (const id in group.buttons) {
+                const originalButton = document.getElementById(id);
+                if (originalButton) {
+                    originalButton.classList.add('spotlight-active');
+                    highlightedElements.push(originalButton);
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'tutorial-item';
+                    const buttonClone = originalButton.cloneNode(true);
+                    buttonClone.disabled = true;
+                    buttonClone.classList.remove('spotlight-active');
+                    const descriptionP = document.createElement('p');
+                    descriptionP.innerHTML = group.buttons[id];
+                    itemDiv.appendChild(buttonClone);
+                    itemDiv.appendChild(descriptionP);
+                    tutorialList.appendChild(itemDiv);
+                }
+            }
+        }
+        
+        function closeTutorial() {
+            modal.style.display = "none";
+            spotlightOverlay.style.display = "none";
+            clearSpotlight();
+        }
+
+        openBtn.onclick = () => {
+            currentGroupIndex = 0;
+            showGroup(currentGroupIndex);
+            modal.style.display = "flex";
+            spotlightOverlay.style.display = "block";
+        };
+
+        nextBtn.onclick = () => {
+            currentGroupIndex++;
+            if (currentGroupIndex >= tutorialGroups.length) {
+                currentGroupIndex = 0;
+            }
+            showGroup(currentGroupIndex);
+        };
+        
+        exitBtn.onclick = closeTutorial;
+        window.onclick = (event) => {
+            if (event.target == modal || event.target == spotlightOverlay) {
+                closeTutorial();
+            }
+        };
+    });
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const allButtons = document.querySelectorAll('button');
+            allButtons.forEach(button => {
+                button.classList.add('stop-breathing');
+            });
+        }, 5000);
+    });
+    </script>
+
+
+
+</body>
+</html>
