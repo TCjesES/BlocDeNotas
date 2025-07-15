@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloc de Notas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-stats">
+        <button id="statsBtn">📊 Ver Estadísticas</button>
+    </div>    
+    <div id="statsModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>📈 Mini Estadísticas de Uso</h3>
+            <div id="statsContent">
+                <p><strong>Notas Creadas Hoy:</strong> <span id="statsNotesToday">0</span></p>
+                <p><strong>Total de Notas Creadas:</strong> <span id="statsTotalNotes">0</span></p>
+                <p><strong>Botón Más Usado:</strong> <span id="statsMostUsedBtn">Ninguno</span></p>
+                <p><strong>Clics en el Botón Más Usado:</strong> <span id="statsMostUsedBtnClicks">0</span></p>
+            </div>
+            <div class="modal-navigation">
+                <button id="statsCloseBtn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="spotlight-overlay"></div>
+    <div class="container-tutorial">
+        <button id="tutorialBtn">❓ Iniciar Tutorial de Botones</button>
+    </div>
+    <input type="date" id="datePicker" style="display: none;">
+    <div class="container">
+        <div class="textarea-wrapper">
+            <textarea id="noteArea" placeholder="Empieza a escribir aquí..."></textarea>
+        </div>
+        <div class="container-history history-collapsed">
+            <h3>Historial (últimas 2 documentaciones)</h3>
+            <button id="toggleHistoryBtn" title="Ocultar/Mostrar Historial">Ocultar</button>
+            <div id="historyContent">
+                <p>El historial aparecerá aquí.</p>
+            </div>
+        </div>
+        <div class="buttons-container">
+            <div class="button-wrapper"><button id="unreachableClientBtn">Cliente No Contesta</button></div>
+            <div class="button-wrapper"><button id="clientReceivesBtn">Cliente Sí Recibe</button></div>
+            <div class="button-wrapper"><button id="clientRescheduleBtn">Cliente Reagenda</button></div>
+        </div>
+    </div>
+    <div class="container2">
+        <div class="buttons-container2">
+            <button id="templateBtn2">Reagenda</button>
+            <button id="unreachableClientBtn2">Ya Recibe</button>
+            <button id="clientReceivesBtn2">No Respónde</button>
+            <button id="clientRescheduleBtn2">Validacion Anterior</button>
+        </div>
+    </div>
+    <div class="container3">
+        <div class="buttons-container3">
+            <button id="templateBtn3">Cliente No Se Encuentra</button>
+            <button id="unreachableClientBtn3">Ya Recibe</button>
+            <button id="clientReceivesBtn3">Responde Pero Reagenda</button>
+            <button id="clientRescheduleBtn3">Cancelacion 4/4</button>
+        </div>
+    </div>
+    <div class="container4">
+        <div class="buttons-container4">
+            <button id="templateBtn4">Cliente Retrasa</button>
+            <button id="unreachableClientBtn4">Ya Recibe</button>
+            <button id="clientReceivesBtn4">No Responde</button>
+            <button id="clientRescheduleBtn4">Validacion Anterior</button>
+        </div>
+    </div>
+    <div class="container5">
+        <div class="buttons-container5">
+            <button id="templateBtn5">Cliente No Desea</button>
+            <button id="unreachableClientBtn5">Si la Desea</button>
+            <button id="clientReceivesBtn5">No Responde</button>
+        </div>
+    </div>
+    <div class="container6">
+        <div class="buttons-container6">
+            <button id="templateBtn6">No Fue Lo Que Contrato</button>
+            <button id="unreachableClientBtn6">Si la Desea</button>
+            <button id="clientReceivesBtn6">No Responde</button>
+        </div>
+    </div>
+    <div class="container7">
+        <div class="buttons-container7">
+            <button id="templateBtn">Plantilla</button>
+            <button id="resetBtn">Copiar Y Borrar</button>
+        </div>
+    </div>
+    <div class="container8">
+        <button id="ilocalizableBtn">Ilocalizable</button>
+        <button id="reagendaBtn">Reagenda</button>
+        <button id="clienteNoDeseaBtn">Cliente No Desea</button>
+        <button id="horarioSugeridoBtn">Horario Sugerido</button>
+        <button id="validarSupervisorBtn">Validar con Supervisor</button>
+        <button id="cancelacionBtn">CANCELACIÓN</button>
+        <button id="sdpcBtn">SDPC</button>
+        <button id="formularioBtn">FORMULARIO</button>
+        <button id="noRespondeBtn">NO RESPONDE</button>
+    </div>
+    <div class="container9">
+        <div class="buttons-container9">
+            <button id="customBtn1">Personalizado 1</button>
+            <button id="customBtn2">Personalizado 2</button>
+            <button id="customBtn3">Personalizado 3</button>
+        </div>
+    </div>
+    <div class="container10">
+        <button id="addOnlyBtn1">Agregar Texto 1</button>
+        <button id="addOnlyBtn2">Agregar Texto 2</button>
+        <button id="addOnlyBtn3">Agregar Texto 3</button>
+        <button id="resetCustomButtonsBtn" class="button-danger">🗑️</button>
+    </div>
+    <div class="container11">
+        <button id="modoBtn" onclick="toggleModoOscuro()">🌙 Modo Oscuro</button>
+    </div>
+    <div class="mouse-follower"></div>
+    <div id="tutorialModal" class="modal">
+        <div class="modal-content">
+            <div id="tutorial-list"></div>
+            <div class="modal-navigation">
+                <button id="tutorialExitBtn">Salir</button>
+                <button id="tutorialNextBtn">Siguiente</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+<div id="inputModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h3 id="modalTitle"></h3>
+        <p id="modalText"></p>
+        <input type="text" id="modalInput" placeholder="Escribe aquí...">
+        <div class="modal-navigation">
+            <button id="modalCancelBtn">Cancelar</button>
+            <button id="modalConfirmBtn">Aceptar</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
